@@ -4,26 +4,20 @@
 void bubble_sort(int *array, size_t size)
 {
     size_t i;
+    size_t j;
     size_t temp;
-
-    int max = array[0];
-    size_t maxIndex = 0;
 
     for (i = 0; i < size - 1; i++)
     {
 
-        if (array[i] > max)
+        for (j = 0; j < size - i - 1; j++)
         {
-            max = array[i];
-
-            maxIndex = i;
+            if (array[j] > array[j + 1])
+            {
+                temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
+            }
         }
-    }
-
-    if (maxIndex < size - 1)
-    {
-        temp = array[maxIndex];
-        array[maxIndex] = array[maxIndex + 1];
-        array[maxIndex + 1] = temp;
     }
 }
