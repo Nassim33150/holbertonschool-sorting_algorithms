@@ -1,5 +1,6 @@
 #include "sort.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void insertion_sort_list(listint_t **list)
 {
@@ -18,9 +19,12 @@ void insertion_sort_list(listint_t **list)
     {
         if (curr->n > curr->next->n)
         {
-            printf("%d\n", curr->next->n);
+            listint_t *temp = curr->next;
+            curr->next = curr->next->next;
+            free(temp);
             return;
         }
         curr = curr->next;
     }
+    printf("Aucun nombre inférieur au précédent trouvé.\n");
 }
