@@ -3,7 +3,7 @@
 
 void insertion_sort_list(listint_t **list)
 {
-    int i;
+
     listint_t *curr;
 
     if (*list == NULL || (*list)->next == NULL)
@@ -14,9 +14,13 @@ void insertion_sort_list(listint_t **list)
 
     curr = *list;
 
-    for (i = 0; curr; i++)
+    while (curr->next != NULL)
     {
-        printf("%d\n", curr->n);
+        if (curr->n > curr->next->n)
+        {
+            printf("%d\n", curr->next->n);
+            return;
+        }
         curr = curr->next;
     }
 }
