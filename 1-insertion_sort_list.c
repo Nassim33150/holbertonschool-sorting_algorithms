@@ -1,11 +1,12 @@
 #include "sort.h"
 #include <stdio.h>
-#include <stdlib.h>
 
 void insertion_sort_list(listint_t **list)
 {
+    int i;
 
     listint_t *curr;
+    listint_t *smallest;
 
     if (*list == NULL || (*list)->next == NULL)
     {
@@ -15,16 +16,17 @@ void insertion_sort_list(listint_t **list)
 
     curr = *list;
 
-    while (curr->next != NULL)
+    for (i = 0; curr; i++)
     {
         if (curr->n > curr->next->n)
         {
-            listint_t *temp = curr->next;
-            curr->next = curr->next->next;
-            free(temp);
-            return;
+
+            while (smallest != NULL)
+            {
+                printf("%d ", curr->n);
+                curr = curr->prev;
+            }
         }
         curr = curr->next;
     }
-    printf("Aucun nombre inférieur au précédent trouvé.\n");
 }
