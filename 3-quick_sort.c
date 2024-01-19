@@ -1,48 +1,94 @@
 #include "sort.h"
 #include <stdio.h>
 
-int partition(int *array, int low, int high, size_t size)
+/**
+ * swap - swaps two elements in an array.
+ *
+ * This function swaps the elements at the specified indices in the given array.
+ *
+ * @param array The array containing the elements to be swapped.
+ * @param idx1 The index of the first element to be swapped.
+ * @param idx2 The index of the second element to be swapped.
+ */
+void swap(int *array, int idx1, int idx2)
 {
-	int c = high;
-	int i;
-	int tmp;
-	int temp;
-
-	for (i = high - 1; i >= low; i--)
-	{
-		if (array[i] > array[high])
-		{
-
-			c -= 1;
-			tmp = array[i];
-			array[i] = array[c];
-			array[c] = tmp;
-		}
-	}
-	temp = array[c];
-	array[c] = array[high];
-	array[high] = temp;
-
-	return (c);
+	int tmp = array[idx1];
+	array[idx1] = array[idx2];
+	array[idx2] = tmp;
 }
 
+/**
+ * partition - partitions an array for quicksort.
+ *
+ * @param array The array to be partitioned.
+ * @param low The starting index of the partition.
+ * @param high The ending index of the partition.
+ * @param size The size of the array.
+ * @return The index of the pivot element after partitioning.
+ *
+ */
+int partition(int *array, int low, int high, int size)
+{
+	int piv, i, j;
+
+	piv = array[high];
+	i = low - 1;
+
+	for (j = low; j < high; j++)
+	{
+		if (array[j] <= piv)
+		{
+			i++;
+			if (i != j)
+			{
+				swap(array, i, j);
+				print_array(array, size);
+			}
+		}
+	}
+	i++;
+	if (array[i] > array[high])
+	{
+		swap(array, i, high);
+		print_array(array, size);
+	}
+	return (i);
+}
+
+/**
+ * _quick_sort - Recursive implementation of quicksort for an array.
+ *
+ * This function recursively sorts the subarrays before and after the
+ * partitioning index. It utilizes the partition function and prints
+ * the array after each swap.
+ *
+ * @param array The array to be sorted.
+ * @param low The starting index of the subarray.
+ * @param high The ending index of the subarray.
+ * @param size The size of the array.
+ */
+void _quick_sort(int *array, int low, int high, int size)
+{
+	int piv;
+
+	if (low >= high || low < 0)
+		return;
+
+	piv = partition(array, low, high, size);
+
+	_quick_sort(array, low, piv - 1, size);
+	_quick_sort(array, piv + 1, high, size);
+}
+
+/**
+ * quick_sort - Sort an array of integers in ascending
+ *              order using the quicksort algorithm.
+ * @array: An array of integers.
+ * @size: The size of the array.
+ *
+ * Description: Uses the partition and the function _quick_sort.
+ */
 void quick_sort(int *array, size_t size)
 {
-
-	if (array == NULL || size < 2)
-	{
-		return;
-	}
-
-	if (size > 1)
-	{
-		size_t pi = partition(array, 0, size - 1, size);
-
-		if (pi > 0)
-		{
-			quick_sort(array, pi);
-		}
-
-		quick_sort(array + pi + 1, size - pi - 1);
-	}
+	_quick_sort(array, 0, size - 1, size);
 }
