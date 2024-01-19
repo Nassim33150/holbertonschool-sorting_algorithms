@@ -1,26 +1,48 @@
 #include "sort.h"
 #include <stdio.h>
 
+int partition(int *array, int low, int high, size_t size)
+{
+	int c = high;
+	int i;
+	int tmp;
+	int temp;
+
+	for (i = high - 1; i >= low; i--)
+	{
+		if (array[i] > array[high])
+		{
+
+			c -= 1;
+			tmp = array[i];
+			array[i] = array[c];
+			array[c] = tmp;
+		}
+	}
+	temp = array[c];
+	array[c] = array[high];
+	array[high] = temp;
+
+	return (c);
+}
+
 void quick_sort(int *array, size_t size)
 {
-
-	size_t i;
-	size_t j;
-	size_t pivot = size - 1;
 
 	if (array == NULL || size < 2)
 	{
 		return;
 	}
 
-	for (i = pivot; i > 0; i--)
+	if (size > 1)
 	{
-		for (j = 0; j < pivot; i++)
+		size_t pi = partition(array, 0, size - 1, size);
+
+		if (pi > 0)
 		{
-			if (array[i] < pivot || array[i] >= pivot)
-			{
-				quick_sort(array, pivot);
-			}
+			quick_sort(array, pi);
 		}
+
+		quick_sort(array + pi + 1, size - pi - 1);
 	}
 }
