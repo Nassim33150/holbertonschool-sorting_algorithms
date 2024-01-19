@@ -1,32 +1,49 @@
 #include "sort.h"
 #include <stdio.h>
 
+/**
+ * insertion_sort_list - Sorts a doubly linked list of integers
+ *                       using the insertion sort algorithm.
+ * @list: A pointer to the head of a doubly-linked list of integers.
+ *
+ * Description: Prints the list after each swap.
+ */
 void insertion_sort_list(listint_t **list)
 {
-    int i;
+	listint_t *node1, *node2;
 
-    listint_t *curr;
-    listint_t *smallest;
+	if (list == NULL || *list == NULL)
+		return;
 
-    if (*list == NULL || (*list)->next == NULL)
-    {
-        // La liste est déjà triée ou vide, aucune action nécessaire
-        return;
-    }
+	node1 = (*list)->next;
+	node2 = *list;
 
-    curr = *list;
+	while (node1 != NULL)
+	{
+		while (node1->prev != NULL)
+		{
+			if (node1->n < node1->prev->n)
+			{
+				node2 = node1->prev;
+				if (node2->prev)
+					node2->prev->next = node1;
 
-    for (i = 0; curr; i++)
-    {
-        if (curr->n > curr->next->n)
-        {
+				node1->prev = node2->prev;
+				if (node1->next)
+					node1->next->prev = node2;
 
-            while (smallest != NULL)
-            {
-                printf("%d ", curr->n);
-                curr = curr->prev;
-            }
-        }
-        curr = curr->next;
-    }
+				node2->next = node1->next;
+				node2->prev = node1;
+				node1->next = node2;
+
+				if (!node1->prev)
+					*list = node1;
+
+				print_list(*list);
+			}
+			else
+				break;
+		}
+		node1 = node1->next;
+	}
 }
